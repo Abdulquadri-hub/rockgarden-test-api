@@ -69,6 +69,7 @@ class StaffReportService
                 ]
             );
 
+            Log::info( "this are the report". json_encode($report));
             Log::info("Staff report generated successfully for staff ID: {$staffId}");
             return $report;
 
