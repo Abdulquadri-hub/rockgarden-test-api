@@ -28,6 +28,9 @@ class GenerateMonthlyStaffReports extends Command
         $month = $this->option('month') ?: Carbon::now()->subMonth()->month;
         $year = $this->option('year') ?: Carbon::now()->subMonth()->year;
 
+        $month = 3;
+        $year = 2023;
+
         $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
         $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 

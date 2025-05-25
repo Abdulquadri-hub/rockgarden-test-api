@@ -52,9 +52,13 @@ class Kernel extends ConsoleKernel
         }
 
         $schedule->command('staff:check-activity')->hourly()->appendOutputTo(storage_path('logs/scheduler.log'));
-        $schedule->command('report:client-summary')->everyMinute(1, '08:00')->appendOutputTo(storage_path('logs/client-reports.log'));
-        $schedule->command('reports:generate-monthly-staff')->everyMinute(1, '02:00')->appendOutputTo(storage_path('logs/staff-reports.log'));
-        // $schedule->command('report:client-summary')->lastDayOfMonth('23:00')->appendOutputTo(storage_path('logs/client-reports.log'));
+        // $schedule->command('report:client-summary')->everyMinute(1, '08:00')->appendOutputTo(storage_path('logs/client-reports.log'));
+        // $schedule->command('reports:generate-monthly-staff')->everyMinute(1, '02:00')->appendOutputTo(storage_path('logs/staff-reports.log'));
+
+        // testing
+
+        $schedule->command('reports:generate-monthly-staff')->everyMinute()->appendOutputTo(storage_path('logs/staff-reports.log'));
+
     }
 
     /**
