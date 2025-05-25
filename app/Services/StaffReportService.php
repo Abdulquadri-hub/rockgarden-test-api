@@ -23,47 +23,18 @@ class StaffReportService
                 throw new \Exception("Staff member not found with ID: {$staffId}");
             }
 
-            // Calculate attendance data
             $attendanceData = $this->calculateAttendanceData($staffId, $startDate, $endDate);
 
-            // Get incident data
             $incidentData = $this->getIncidentData($staffId, $startDate, $endDate);
 
-            // Get staff chart data
             $staffChartData = $this->getStaffChartData($staffId, $startDate, $endDate);
 
-            // Get payrun data
             $payrunData = $this->getPayrunData($staffId, $startDate, $endDate);
 
-            // Get ratings data
             $ratingsData = $this->getRatingsData($staffId, $startDate, $endDate);
 
-            // Generate summary notes
             $summaryNotes = $this->generateSummaryNotes($attendanceData, $incidentData, $staffChartData, $ratingsData);
 
-            Log::info("Creating/updating staff report for staff ID: {$staffId} from $startDate to $endDate", [
-    'payload' => [
-        'staff_name' => $staff->user->name ?? 'Unknown',
-        'employee_no' => $staff->employee_no,
-        'department' => $staff->department,
-        'designation' => $staff->designation,
-        'total_attendance_days' => $attendanceData['total_days'],
-        'total_working_days' => $attendanceData['working_days'],
-        'attendance_percentage' => $attendanceData['percentage'],
-        'total_incidents_reported' => $incidentData['total_count'],
-        'total_staff_charts_created' => $staffChartData['total_count'],
-        'average_rating' => $ratingsData['average_rating'],
-        'total_ratings_received' => $ratingsData['total_ratings'],
-        'attendance_details' => $attendanceData['details'],
-        'incident_details' => $incidentData['details'],
-        'staff_chart_details' => $staffChartData['details'],
-        'payrun_details' => $payrunData,
-        'summary_notes' => $summaryNotes,
-        'status' => 'generated'
-    ]
-]);
-
-            // Create or update staff report
             $report = StaffReport::updateOrCreate(
                 [
                     'staff_id' => $staffId,
@@ -90,8 +61,7 @@ class StaffReportService
                     'status' => 'generated'
                 ]
             );
-
-            Log::info("Staff report generated successfully for staff ID: {$staffId}");
+            
             return $report;
 
         } catch (\Exception $e) {
