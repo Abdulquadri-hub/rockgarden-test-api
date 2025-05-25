@@ -27,8 +27,8 @@ jobs:
           .env
           vendor/**
 
-    - name: Run Migrations
-      run: |
-        if [ -f artisan ]; then
-          php artisan migrate --force
-        fi
+    # - name: Run Migrations
+    #   run: |
+    #     if [ -f artisan ]; then
+    #       php artisan migrate --force
+    #     fi
