@@ -457,15 +457,13 @@ Route::group([
         Route::post('/approve-application', [ServiceApplicationController::class, 'approve']);
 
         // Staff Reports
-        Route::group(['prefix' => 'staff-reports'], function () {
-            Route::get('/', [StaffReportController::class, 'index']);
-            Route::get('/{id}', [StaffReportController::class, 'show']);
-            Route::get('/{id}/download', [StaffReportController::class, 'downloadPdf']);
-            Route::get('/options/staff', [StaffReportController::class, 'getStaffOptions']);
-            Route::get('/analytics/statistics', [StaffReportController::class, 'getStatistics']);
-            Route::get('/options/periods', [StaffReportController::class, 'getAvailablePeriods']);
-            Route::post('/actions/archive', [StaffReportController::class, 'archiveOldReports']);
-        });
+        Route::get('/staff-reports', 'StaffReportController@index');
+        Route::get('/staff-reports/{id}', 'StaffReportController@show');
+        Route::get('/staff-reports/{id}/download', 'StaffReportController@downloadPdf');
+        Route::get('/staff-reports/options/staff', 'StaffReportController@getStaffOptions');
+        Route::get('/staff-reports/analytics/statistics', 'StaffReportController@getStatistics');
+        Route::get('/staff-reports/options/periods', 'StaffReportController@getAvailablePeriods');
+        Route::get('/staff-reports/actions/archive', 'StaffReportController@archiveOldReports');
 
         // Dashboard
         Route::get('/payroll-dashboard', 'ApiController@payrollDashboard');
