@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ForceJsonResponse
 {
@@ -25,10 +26,22 @@ class ForceJsonResponse
         // $request->headers->set('Connection', 'keep-alive');
         // $request->headers->set('Host', 'api.rockgardenehr.com');
         // $request->headers->set('Origin', 'https://admin.rockgardenehr.com');
-            return $next($request)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Credentials', 'true')
-            ->header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT"')
-            ->header('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Origin'); 
+
+            // return $next($request)
+            // ->header('Access-Control-Allow-Origin', '*')
+            // ->header('Access-Control-Allow-Credentials', 'true')
+            // ->header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT"')
+            // ->header('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Origin');
+
+        $response = $next($request);
+        
+        if (!$response instanceof StreamedResponse) {
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->headers->set('Access-Control-Allow-Credentials', 'true');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');
+            $response->headers->set('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Origin');
+        }
+
+        return $response;
     }
 }

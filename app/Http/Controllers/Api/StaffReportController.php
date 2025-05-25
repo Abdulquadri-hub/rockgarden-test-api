@@ -166,10 +166,9 @@ class StaffReportController extends Controller
                 ], 404);
             }
 
-            // Generate PDF if not exists or file is missing
             if (!$report->pdf_path || !Storage::exists($report->pdf_path)) {
                 $this->pdfService->generatePdf($report);
-                $report->refresh(); // Refresh to get updated pdf_path
+                $report->refresh(); 
             }
 
             // Update status to downloaded if it was only generated

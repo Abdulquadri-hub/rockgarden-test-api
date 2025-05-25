@@ -107,6 +107,15 @@ Route::group([
         Route::post('announcement/edit/{announcement}', 'AnnouncementController@update')->middleware('admin');
         Route::post('announcement/delete/{announcement}', 'AnnouncementController@destroy')->middleware('admin');
 
+        // Staff Reports
+        Route::get('/staff-reports', 'StaffReportController@index');
+        Route::get('/staff-reports/{id}', 'StaffReportController@show');
+        Route::get('/staff-reports/{id}/download', 'StaffReportController@downloadPdf');
+        Route::get('/staff-reports/options/staff', 'StaffReportController@getStaffOptions');
+        Route::get('/staff-reports/analytics/statistics', 'StaffReportController@getStatistics');
+        Route::get('/staff-reports/options/periods', 'StaffReportController@getAvailablePeriods');
+        Route::get('/staff-reports/actions/archive', 'StaffReportController@archiveOldReports');
+
 
         Route::get('/get-familyfriend-assignment','FamilyFriendsAssignmentController@show');
         Route::get('/get-familyfriend-assignments','FamilyFriendsAssignmentController@index');
@@ -455,15 +464,6 @@ Route::group([
         // Service Application
         Route::post('/reject-application', [ServiceApplicationController::class, 'reject']);
         Route::post('/approve-application', [ServiceApplicationController::class, 'approve']);
-
-        // Staff Reports
-        Route::get('/staff-reports', 'StaffReportController@index');
-        Route::get('/staff-reports/{id}', 'StaffReportController@show');
-        Route::get('/staff-reports/{id}/download', 'StaffReportController@downloadPdf');
-        Route::get('/staff-reports/options/staff', 'StaffReportController@getStaffOptions');
-        Route::get('/staff-reports/analytics/statistics', 'StaffReportController@getStatistics');
-        Route::get('/staff-reports/options/periods', 'StaffReportController@getAvailablePeriods');
-        Route::get('/staff-reports/actions/archive', 'StaffReportController@archiveOldReports');
 
         // Dashboard
         Route::get('/payroll-dashboard', 'ApiController@payrollDashboard');
