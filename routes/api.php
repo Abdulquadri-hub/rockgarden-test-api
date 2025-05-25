@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ServiceApplicationController;
 use App\Http\Controllers\Api\StaffAssignmentController;
 use App\Http\Controllers\Api\TwilioSMSController;
 use App\Http\Controllers\Api\CronJobController;
+use App\Http\Controllers\Api\StaffReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
@@ -455,8 +456,16 @@ Route::group([
         Route::post('/reject-application', [ServiceApplicationController::class, 'reject']);
         Route::post('/approve-application', [ServiceApplicationController::class, 'approve']);
 
-        // Staff Reports Generation
-        Route::get('', [StaffReportController::class, '']);
+        // Staff Reports
+        Route::group(['prefix' => 'staff-reports'], function () {
+            Route::get('/', [StaffReportController::class, 'index']);
+            Route::get('/{id}', [StaffReportController::class, 'show']);
+            Route::get('/{id}/download', [StaffReportController::class, 'downloadPdf']);
+            Route::get('/options/staff', [StaffReportController::class, 'getStaffOptions']);
+            Route::get('/analytics/statistics', [StaffReportController::class, 'getStatistics']);
+            Route::get('/options/periods', [StaffReportController::class, 'getAvailablePeriods']);
+            Route::post('/actions/archive', [StaffReportController::class, 'archiveOldReports']);
+        });
 
         // Dashboard
         Route::get('/payroll-dashboard', 'ApiController@payrollDashboard');
