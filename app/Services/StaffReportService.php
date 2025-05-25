@@ -42,7 +42,7 @@ class StaffReportService
                     'report_end_date' => $endDate,
                 ],
                 [
-                    'staff_name' => $staff->user->name ?? 'Unknown',
+                    'staff_name' => $staff->user->lastname . " " .  $staff->user->first_name ?? 'Unknown',
                     'employee_no' => $staff->employee_no,
                     'department' => $staff->department,
                     'designation' => $staff->designation,
@@ -61,7 +61,7 @@ class StaffReportService
                     'status' => 'generated'
                 ]
             );
-            
+
             return $report;
 
         } catch (\Exception $e) {
