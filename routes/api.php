@@ -58,17 +58,17 @@ Route::group([
     Route::get('/requery-transaction','InvoiceController@verify_payment');
     Route::get('/requery-transaction-mutiple','InvoiceController@verify_payment_mutiple');
     Route::get('/admin/requery-transaction','InvoiceController@verify_payment');
-    
-    
-    
+
+
+
     //Invoice init
      Route::post('/init-transaction', [InvoiceController::class, 'init_transaction']);
      Route::post('/init-transaction-multiple', [InvoiceController::class, 'init_transaction_multiple']);
-  
-    
+
+
     //Get PDF link of Unpaid invoices,
        Route::get('/get-invoice-attachment', [InvoiceController::class, 'getinvoiceattachment']);
-       //Get all Invoice Record unpaid and paid by client_id 
+       //Get all Invoice Record unpaid and paid by client_id
  Route::get('/get-invoices-unpaid-client', [InvoiceController::class, 'getunpaidinvoicesclient']);
  Route::get('/get-invoices-unpaid-client-new', [InvoiceController::class, 'getunpaidinvoicesclientnew']);
     Route::get('/get-faqs','FAQController@index');
@@ -80,7 +80,7 @@ Route::group([
     ], function() {
 
         Route::get('/sendSMS', [TwilioSMSController::class, 'index']);
-        
+
         //messages
         Route::get('/messages/outbox', 'MessageController@outbox');
         Route::get('/messages/inbox', 'MessageController@inbox');
@@ -92,20 +92,20 @@ Route::group([
         Route::post('/messages/search', 'MessageController@search');
         Route::delete('/messages/delete/{message}', 'MessageController@destroy');
         Route::post('/messages/restore/{message}', 'MessageController@restore');
-        
+
         Route::get('/messages/user/{user}', [MessageController::class, 'getUserMessages'])->middleware('admin');
         Route::post('/messages/bulk', [MessageController::class, 'bulk'])->middleware('admin');
-        
+
         //announcement
         Route::get('/announcements', 'AnnouncementController@index');
         Route::get('announcements/unread-count', 'AnnouncementController@unreadCount');
         Route::get('announcements/unread', 'AnnouncementController@getUnread');
         Route::post('announcements/{announcement}/read', 'AnnouncementController@markAsRead');
-        
+
         Route::post('announcement/send', 'AnnouncementController@store')->middleware('admin');
         Route::post('announcement/edit/{announcement}', 'AnnouncementController@update')->middleware('admin');
         Route::post('announcement/delete/{announcement}', 'AnnouncementController@destroy')->middleware('admin');
-        
+
 
         Route::get('/get-familyfriend-assignment','FamilyFriendsAssignmentController@show');
         Route::get('/get-familyfriend-assignments','FamilyFriendsAssignmentController@index');
@@ -140,14 +140,14 @@ Route::group([
 
         // Invoice
         Route::get('/get-invoices', [InvoiceController::class, 'index']);
-       
+
         // Route::get('/send-invoice-email', [InvoiceController::class, 'send_invoice_email']);
-        
-        
+
+
         // review update
         Route::post('/review-assigned-staff', [ReviewController::class, 'store']);
-       
-      
+
+
 
         // Transactions
         Route::get('/get-transaction','TransactionController@show');
@@ -344,7 +344,7 @@ Route::group([
         Route::post('/create-sale-order','SaleOrderController@store');
         Route::post('/update-sale-order','SaleOrderController@update');
         Route::post('/delete-sale-order','SaleOrderController@destroy');
-        
+
         Route::get('/item-sales', 'SaleOrderController@getItemSales');
 
         // CLient Medication
@@ -411,8 +411,8 @@ Route::group([
         Route::post('/create-document-staff-bulk','DocumentStaffController@storeAll');
         Route::post('/update-document-staff','DocumentStaffController@update');
         Route::post('/delete-document-staff','DocumentStaffController@destroy');
-        
-                
+
+
         //
         Route::get('/get-client-assigned-staff', 'ClientController@clientAssignedStaff');
     });
@@ -446,7 +446,7 @@ Route::group([
         Route::post('/create-faq','FAQController@store');
         Route::post('/update-faq','FAQController@update');
         Route::post('/delete-faq','FAQController@destroy');
-        
+
         //flaggesTask
         Route::get('/get-flagged-tasks','FlaggedTaskController@index');
         Route::get('/get-flagged-task/{id}','FlaggedTaskController@show');
@@ -454,6 +454,9 @@ Route::group([
         // Service Application
         Route::post('/reject-application', [ServiceApplicationController::class, 'reject']);
         Route::post('/approve-application', [ServiceApplicationController::class, 'approve']);
+
+        // Staff Reports Generation
+        Route::get('', [StaffReportController::class, '']);
 
         // Dashboard
         Route::get('/payroll-dashboard', 'ApiController@payrollDashboard');
@@ -523,19 +526,19 @@ Route::group([
         Route::get('/status-invoice-cron', [CronJobController::class, 'status_cron']);
        //For send email USD and NGN
        Route::post('/send-invoice-email-usd-ngn', [InvoiceController::class, 'sendInvoiceEmailUsdNgn']);
-       
+
        //Get the sum of Unpaid invoices,
        Route::get('/get-invoices-unpaid', [InvoiceController::class, 'getunpaidinvoices']);
        Route::get('/get-invoices-unpaid-new', [InvoiceController::class, 'getunpaidinvoicesnew']);
-       
+
         Route::post('/send-employee-payrun-email','PayRunController@payrun_email');
 
-   //Exchange Rate Crud, 
+   //Exchange Rate Crud,
        Route::get('/get-exchange-rates', [ExchangeRateController::class, 'index']);
        Route::post('/create-exchange-rate', [ExchangeRateController::class, 'store']);
        Route::post('/update-exchange-rate', [ExchangeRateController::class, 'update']);
        Route::post('/delete-exchange-rate', [ExchangeRateController::class, 'destroy']);
-   
+
 
 
   Route::get('/demo-email', [InvoiceController::class, 'demo']);
@@ -891,7 +894,7 @@ Route::group([
     Route::group([
       'middleware' => ['auth:api','admin'],
     ], function() {
-        
+
         //permissions
         Route::get('/get-permission','PermissionController@index'); //{{base_url}}admin/get-permission
         Route::post('/create-permission','PermissionController@store'); //{{base_url}}admin/create-permission // name

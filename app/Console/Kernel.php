@@ -22,14 +22,12 @@ class Kernel extends ConsoleKernel
        Commands\DemoCron::class,
        Commands\CronJobRemove::class,
     ];
-    
+
     protected function schedule(Schedule $schedule)
     {
         Log::channel('stack')->info('Scheduler running at: ' . now()->toDateTimeString());
-        
-        $schedule->command('send:birthday-wishes')
-            ->daily()
-            ->appendOutputTo(storage_path('logs/scheduler.log'))
+
+        $schedule->command('send:birthday-wishes')->daily()->appendOutputTo(storage_path('logs/scheduler.log'))
             ->before(function () {
                 Log::channel('stack')->info('About to run birthday wishes command', [
                     'time' => now()->toDateTimeString(),
@@ -43,7 +41,7 @@ class Kernel extends ConsoleKernel
                 Log::channel('stack')->error('Failed to run birthday wishes command');
             });
 
-        
+
         if (Cache::get('invoice-cron-enabled', true)) {
           $repeat = Cache::get('invoice-cron-repeat');
           if($repeat == 'montly') $repeat = 'monthly';
@@ -52,9 +50,11 @@ class Kernel extends ConsoleKernel
             //          ->{$repeat}()
             //          ->withoutOverlapping();
         }
-        
-        $schedule->command('staff:check-activity')->hourly()
-            ->appendOutputTo(storage_path('logs/scheduler.log'));
+
+        $schedule->command('staff:check-activity')->hourly()->appendOutputTo(storage_path('logs/scheduler.log'));
+        $schedule->command('report:client-summary')->monthlyOn(1, '08:00')->appendOutputTo(storage_path('logs/client-reports.log'));
+        $schedule->command('reports:generate-monthly-staff')->monthlyOn(1, '02:00')->appendOutputTo(storage_path('logs/staff-reports.log'));
+        // $schedule->command('report:client-summary')->lastDayOfMonth('23:00')->appendOutputTo(storage_path('logs/client-reports.log'));
     }
 
     /**
