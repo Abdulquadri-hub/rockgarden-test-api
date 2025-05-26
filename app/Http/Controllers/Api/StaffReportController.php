@@ -184,7 +184,7 @@ class StaffReportController extends Controller
 
             return response()->json([
                 'success' => true,
-                'url' => $url
+                'url' => asset($url)
             ]);
 
         } catch (\Exception $e) {
@@ -272,11 +272,10 @@ class StaffReportController extends Controller
                     'reports_with_ratings' => $query->whereNotNull('average_rating')->count()
                 ],
 
-                // Monthly breakdown
                 'monthly_data' => StaffReport::selectRaw('
                         YEAR(report_start_date) as year,
                         MONTH(report_start_date) as month,
-                        MONTHNAME(report_start_date) as month_name,
+                        MONTHNAME(MIN(report_start_date)) as month_name,
                         COUNT(*) as total_reports,
                         AVG(attendance_percentage) as avg_attendance,
                         SUM(total_incidents_reported) as total_incidents,
