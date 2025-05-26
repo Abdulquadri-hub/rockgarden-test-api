@@ -197,7 +197,7 @@ class StaffReportController extends Controller
                 ->map(function ($employee) {
                     return [
                         'id' => $employee->id,
-                        'name' => $employee->user?->last_name . " " . $employee->user?->first_name ?? 'Unknown',
+                        'name' => $employee->user?->first_name ?? 'Unknown',
                         'employee_no' => $employee->employee_no,
                         'department' => $employee->department,
                         'designation' => $employee->designation
