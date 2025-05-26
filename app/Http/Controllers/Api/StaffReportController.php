@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\StaffReport;
-use App\Models\Employee;
-use App\Services\StaffReportPdfService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\Models\Employee;
+use App\Models\StaffReport;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use App\Services\StaffReportPdfService;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class StaffReportController extends Controller
 {
@@ -166,28 +168,27 @@ class StaffReportController extends Controller
                 ], 404);
             }
 
-            if (!$report->pdf_path || !Storage::exists($report->pdf_path)) {
+            $fullPath = public_path() . $report->pdf_path;
+            if (!$report->pdf_path || !File::exists($fullPath)) {
                 $this->pdfService->generatePdf($report);
                 $report->refresh();
             }
 
-            // Update status to downloaded if it was only generated
             if ($report->status === 'generated') {
                 $report->update(['status' => 'downloaded']);
             }
 
             $filename = "staff-report-{$report->staff_name}-{$report->report_start_date->format('M-Y')}.pdf";
 
-            // return Storage::download($report->pdf_path, $filename);
-
-             $url = Storage::url($report->pdf_path);
+            $url = url($report->pdf_path);
 
             return response()->json([
                 'success' => true,
-                'url' => asset($url)
+                'url' => $url
             ]);
 
         } catch (\Exception $e) {
+            Log::error('PDF Download Error: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Error downloading PDF: ' . $e->getMessage()
