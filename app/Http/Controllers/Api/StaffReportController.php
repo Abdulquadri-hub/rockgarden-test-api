@@ -179,8 +179,8 @@ class StaffReportController extends Controller
             $filename = "staff-report-{$report->staff_name}-{$report->report_start_date->format('M-Y')}.pdf";
 
             // return Storage::download($report->pdf_path, $filename);
-            
-             $url = Storage::temporaryUrl($report->pdf_path, now()->addMinutes(5));
+
+             $url = Storage::url($report->pdf_path);
 
             return response()->json([
                 'success' => true,
