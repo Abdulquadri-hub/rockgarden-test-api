@@ -22,7 +22,7 @@ class StaffReportPdfService
         $filename = "staff-report-{$report->staff_id}-{$report->report_start_date->format('Y-m')}.pdf";
         $path = "staff-reports/{$filename}";
 
-        Storage::put($path, $pdf->output());
+        Storage::disk('public')->put($path, $pdf->output());
 
         $report->update(['pdf_path' => $path]);
 
