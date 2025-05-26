@@ -191,7 +191,7 @@ class StaffReportController extends Controller
     public function getStaffOptions()
     {
         try {
-            $staff = Employee::with('user:id,first_name, last_name')
+            $staff = Employee::with('user:id,first_name,last_name')
                 ->select('id', 'employee_no', 'department', 'designation', 'user_id')
                 ->get()
                 ->map(function ($employee) {
