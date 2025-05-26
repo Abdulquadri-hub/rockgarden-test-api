@@ -168,7 +168,7 @@ class StaffReportController extends Controller
 
             if (!$report->pdf_path || !Storage::exists($report->pdf_path)) {
                 $this->pdfService->generatePdf($report);
-                $report->refresh(); 
+                $report->refresh();
             }
 
             // Update status to downloaded if it was only generated
@@ -197,7 +197,7 @@ class StaffReportController extends Controller
                 ->map(function ($employee) {
                     return [
                         'id' => $employee->id,
-                        'name' => $employee->user->name ?? 'Unknown',
+                        'name' => $employee->user->last_name . " " . $employee->user->first_name ?? 'Unknown',
                         'employee_no' => $employee->employee_no,
                         'department' => $employee->department,
                         'designation' => $employee->designation
