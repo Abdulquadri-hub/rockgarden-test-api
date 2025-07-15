@@ -280,7 +280,7 @@ class GenerateClientSummaryReport extends Command
     private function sendReportToFamily($client, $pdf, $startDate, $endDate)
     {
         $familyContacts = $client->keyContacts()
-                               ->where('relationship_type', 'family')
+                               ->where('relationship', 'family')
                                ->whereNotNull('email')
                                ->get();
 
