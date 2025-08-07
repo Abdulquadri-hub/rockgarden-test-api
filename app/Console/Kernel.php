@@ -55,6 +55,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('report:client-summary')->monthlyOn(1, '08:00')->appendOutputTo(storage_path('logs/client-reports.log'));
         $schedule->command('reports:generate-monthly-staff')->monthlyOn(1, '02:00')->appendOutputTo(storage_path('logs/staff-reports.log'));
 
+        $schedule->command('report:client-summary --client_id=5 --month=7 --year=2025')->everyMinute()->appendOutputTo(storage_path('logs/client-reports.log'));
+
     }
 
     /**
