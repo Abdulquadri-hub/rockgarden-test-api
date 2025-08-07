@@ -280,8 +280,18 @@ return ;
 
     private function sendReportToFamily($client, $pdf, $startDate, $endDate)
     {
+        $relationhips = [
+            "Family", "Son",
+            "Daughter", "Acquaintance",
+            "Grand Son", "Grand Daughter",
+            "Father", "Mother",
+            "Sister", "Brother",
+            "Uncle", "Aunt",
+            "Relative", "Friend",
+        ];
+
         $familyContacts = $client->keyContacts()
-                               ->where('relationship', 'family')
+                               ->whereIn('relationship',  $relationhips)
                                ->whereNotNull('email_address')
                                ->get();
 
