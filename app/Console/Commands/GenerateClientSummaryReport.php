@@ -66,7 +66,8 @@ class GenerateClientSummaryReport extends Command
 
         // Gather all report data
         $reportData = $this->gatherReportData($client, $startDate, $endDate);
-
+        $this->error(json_encode($reportData));
+return ;
         // Generate PDF
         $pdf = $this->generatePDF($client, $reportData, $startDate, $endDate);
 
