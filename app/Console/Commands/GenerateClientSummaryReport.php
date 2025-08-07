@@ -281,7 +281,7 @@ class GenerateClientSummaryReport extends Command
     {
         $familyContacts = $client->keyContacts()
                                ->where('relationship', 'family')
-                               ->whereNotNull('email')
+                               ->whereNotNull('email_address')
                                ->get();
 
         foreach ($familyContacts as $contact) {
